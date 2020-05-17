@@ -21,6 +21,7 @@ def limit_price(price,rate=0.10):
     """
     return round_up(price*(1.0 + rate),2),round_up(price*(1.0-rate),2)
 
+
 class Randomkdata:
     def __init__(self,price,trand=0,rate=0.1):
         self.open = 1
