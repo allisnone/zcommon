@@ -40,8 +40,9 @@ def random_rate_price(price,rate=0.10,decimal=2,rate_down=None):
 
 class Ztrend:
     def __init__(self):
-        self.trend = 0
-        #random.choice ( ['apple', 'pear', 'peach', 'orange', 'lemon'] )
+        base_type = [-2,-1,0,1,2] #0--横盘，1-震荡向上，2-单边上涨，-1-震荡向下，-2-单边下跌
+        trend_type = [1,0,-2,0,-1,0,1,0,2,-1]
+        self.trend = random.choice(trend_type)
         
 class Randomkdata:
     def __init__(self,price,trand=0,rate=0.1):
@@ -111,3 +112,6 @@ print(rk.close)
 print(rk.ratio)
 
 print(rk.to_dict())
+
+zt = Ztrend()
+print(zt.trend)
