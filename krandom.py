@@ -15,11 +15,23 @@ def random_price(low,high,decimal=2):
     """
     return round_up(random.uniform(low,high),decimal)
 
-def limit_price(price,rate=0.10):
+def limit_price(price,rate=0.10,decimal=2,rate_down=None):
     """
     获取涨停和跌停价格，保留2位小数，四舍五入
+    :param price: float, last close price
+    :param rate: float, limit rate
+    :param decimal: int, decimal digit 
+    :param rate_down: float,  lower rate, default is None
+    :return highest,lowest, float
     """
-    return round_up(price*(1.0 + rate),2),round_up(price*(1.0-rate),2)
+    ratedown = -1 * rate 
+    if rate_down!=None:
+        ratedown = rate_down
+    if rate<ratedown: #rate 为rate和ratedown中的最大者
+        a = rate
+        rate = ratedown
+        ratedown = a
+    return round_up(price*(1.0 + rate),decimal),round_up(price*(1.0+ratedown),decimal)
 
 
 class Ztrend:
@@ -29,19 +41,22 @@ class Ztrend:
         
 class Randomkdata:
     def __init__(self,price,trand=0,rate=0.1):
-        self.open = 1
-        self.close = 2
-        self.now = 2
-        self.high = 3
-        self.low =4
-        self.rate = rate
-        self.limit = self.get_limit(price)
-    
+        self.limit = limit_price(price,rate,decimal=2)
+        self.high = random_price(self.limit[1], self.limit[0], decimal=2)
+        self.low = random_price(self.limit[1], self.limit[0], decimal=2)
+        if self.high< self.low:
+            a = self.high
+            self.high = self.low
+            self.low = a
+        self.open = random_price(self.low, self.high, decimal=2)#limit_price(price,rate=0.03,decimal=2,rate_down=-0.02)
+        self.close = random_price(self.low, self.high, decimal=2)
+        self.rate = self.close/price - 1.0 
+        
     def set_rate(self,rate=0.1):
         self.rate = rate
     
     def get_limit(self,price):
-        return round_up(price*(1.0 + self.rate),2),round_up(price*(1.0-self.rate),2)
+        return limit_price(price, rate, decimal=2)
     
     def set_trand(trand=0):
         k = random(0,1)
@@ -64,8 +79,12 @@ price = 13.25
 price = 11.65
 price = 2.82
 price = 3.46
-print(round_up(price,4))
 rate = 0.1
+
+h,l = limit_price(price, rate, decimal=2, rate_down=-0.02)
+print(h,l)
+print(round_up(price,4))
+
 a = price*(1+rate)
 print(a)
 print(round_up(a))
@@ -73,4 +92,9 @@ rk = Randomkdata(price=price,trand=0,rate=0.1)
 print(rk.get_limit(price))
 
 print(rk.get_random_price(price))
-
+print('Kdata: ')
+print(rk.high)
+print(rk.low)
+print(rk.open)
+print(rk.close)
+print(rk.rate)
