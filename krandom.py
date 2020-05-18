@@ -57,9 +57,10 @@ class Randomkdata:
         #self.open = random_rate_price(price,rate=0.03,decimal=2,rate_down=-0.02)
         self.close = random_price(self.low, self.high, decimal=2)
         self.volume = 100
-        self.ratio = self.close/price - 1.0 
+        self.ratio = round_up((self.close/price - 1.0)*100, decimal=2)
+        
     def to_dict(self):
-        return {'open':self.open,'close':self.close,'high':self.high,'low':self.low,'volume':self.volume,'last':self.last}
+        return {'open':self.open,'close':self.close,'high':self.high,'low':self.low,'volume':self.volume,'last':self.last,'ratio':self.ratio}
         
     def set_rate(self,rate=0.1):
         self.rate = rate
@@ -89,6 +90,7 @@ price = 11.65
 price = 2.82
 price = 3.46
 rate = 0.1
+price = 11.65
 
 h,l = limit_price(price, rate, decimal=2, rate_down=-0.02)
 print(h,l)
