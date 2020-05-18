@@ -38,7 +38,6 @@ class Ztrend:
     def __init__(self):
         self.trend = 0
         #random.choice ( ['apple', 'pear', 'peach', 'orange', 'lemon'] )
-
         
 class Randomkdata:
     def __init__(self,price,trand=0,rate=0.1):
