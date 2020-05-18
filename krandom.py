@@ -110,5 +110,4 @@ print(rk.open)
 print(rk.close)
 print(rk.ratio)
 
-
 print(rk.to_dict())
