@@ -53,8 +53,8 @@ class Randomkdata:
             a = self.high
             self.high = self.low
             self.low = a
-        #self.open = random_price(self.low, self.high, decimal=2)#limit_price(price,rate=0.03,decimal=2,rate_down=-0.02)
-        self.open = random_rate_price(price,rate=0.03,decimal=2,rate_down=-0.02)
+        self.open = random_price(self.low, self.high, decimal=2)#limit_price(price,rate=0.03,decimal=2,rate_down=-0.02)
+        #self.open = random_rate_price(price,rate=0.03,decimal=2,rate_down=-0.02)
         self.close = random_price(self.low, self.high, decimal=2)
         self.volume = 100
         self.ratio = self.close/price - 1.0 
