@@ -45,6 +45,7 @@ class Ztrend:
         
 class Randomkdata:
     def __init__(self,price,trand=0,rate=0.1):
+        self.last = price
         self.limit = limit_price(price,rate,decimal=2)
         self.high = random_price(self.limit[1], self.limit[0], decimal=2)
         self.low = random_price(self.limit[1], self.limit[0], decimal=2)
@@ -55,7 +56,10 @@ class Randomkdata:
         #self.open = random_price(self.low, self.high, decimal=2)#limit_price(price,rate=0.03,decimal=2,rate_down=-0.02)
         self.open = random_rate_price(price,rate=0.03,decimal=2,rate_down=-0.02)
         self.close = random_price(self.low, self.high, decimal=2)
+        self.volume = 100
         self.ratio = self.close/price - 1.0 
+    def to_dict(self):
+        return {'open':self.open,'close':self.close,'high':self.high,'low':self.low,'volume':self.volume,'last':self.last}
         
     def set_rate(self,rate=0.1):
         self.rate = rate
@@ -103,3 +107,5 @@ print(rk.low)
 print(rk.open)
 print(rk.close)
 print(rk.ratio)
+
+print(rk.to_dict())
