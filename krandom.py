@@ -34,6 +34,30 @@ def random_price(low,high,decimal=2):
     """
     return round_up(random.uniform(low,high),decimal)
 
+def randomnormal_price(mean,delta,decimal=2,uplimit=None,downlimit=None):
+    """
+    获取mean,delta之前的随机正态分布浮点数，保留decimal位小数，四舍五入
+    正态分布: 在横轴区间（μ-σ,μ+σ）内的面道积为68.268949%，
+    横轴区间（μ-1.96σ,μ+1.96σ）内的面积为95.449974%，
+    横轴区间（μ-2.58σ,μ+2.58σ）内的面积为99.730020%。
+    """
+    rv = round_up(random.normalvariate(mean,delta),decimal)
+    if uplimit!=None:
+        if downlimit!=None:
+            uplimit = max(uplimit,downlimit)
+            downlimit = min(uplimit,downlimit)
+        if rv > uplimit:
+            return uplimit
+        elif rv< downlimit:
+            return downlimit
+        else:
+            pass
+    else:
+        if downlimit!=None:
+            if rv <downlimit:
+                return downlimit
+    return rv
+
 def random_rate_price(price,rate=0.10,decimal=2,rate_down=None):
     high,low = limit_price(price, rate, decimal, rate_down)
     return random_price(low, high, decimal)
@@ -102,7 +126,7 @@ price = 11.65
 price = 2.82
 price = 3.46
 rate = 0.1
-price = 11.65
+price = 10.0
 
 h,l = limit_price(price, rate, decimal=2, rate_down=-0.02)
 print(h,l)
